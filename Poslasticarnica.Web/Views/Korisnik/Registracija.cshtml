@@ -1,0 +1,131 @@
+﻿@model Poslasticarnica.Web.Models.RegistracijaViewModel
+
+@{
+    ViewData["Title"] = "Registracija";
+}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-5">
+
+            <div class="card shadow-sm p-4">
+
+                <div class="text-center mb-4">
+
+                    <div style="font-size: 55px;">
+                        🧁
+                    </div>
+
+                    <h2 class="mt-2">
+                        Kreirajte nalog
+                    </h2>
+
+                    <p class="text-muted">
+                        Registracija za Slatki Kutak
+                    </p>
+
+                </div>
+
+                @if (ViewBag.Greska != null)
+                {
+                    <div class="alert alert-danger">
+                        @ViewBag.Greska
+                    </div>
+                }
+
+                <form asp-action="Registracija"
+                      method="post">
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="text-danger mb-3">
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label asp-for="KorisnickoIme"
+                               class="form-label">
+                            Korisničko ime
+                        </label>
+
+                        <input asp-for="KorisnickoIme"
+                               class="form-control"
+                               placeholder="Unesite korisničko ime" />
+
+                        <span asp-validation-for="KorisnickoIme"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label asp-for="Lozinka"
+                               class="form-label">
+                            Lozinka
+                        </label>
+
+                        <input asp-for="Lozinka"
+                               class="form-control"
+                               placeholder="Unesite lozinku" />
+
+                        <span asp-validation-for="Lozinka"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <label asp-for="PotvrdaLozinke"
+                               class="form-label">
+                            Potvrdite lozinku
+                        </label>
+
+                        <input asp-for="PotvrdaLozinke"
+                               class="form-control"
+                               placeholder="Ponovite lozinku" />
+
+                        <span asp-validation-for="PotvrdaLozinke"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <button type="submit"
+                            class="btn slatki-primary w-100">
+
+                        Registruj se
+
+                    </button>
+
+                </form>
+
+                <div class="text-center mt-4">
+
+                    <span class="text-muted">
+                        Već imate nalog?
+                    </span>
+
+                    <a asp-action="Prijava"
+                       class="ms-1">
+
+                        Prijavite se
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

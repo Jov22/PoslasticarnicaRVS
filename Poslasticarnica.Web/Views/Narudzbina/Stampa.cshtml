@@ -1,0 +1,88 @@
+﻿@model List<Poslasticarnica.Modeli.Narudzbina>
+
+@{
+    ViewData["Title"] = "Štampa narudžbina";
+}
+
+<div class="container mt-4">
+
+    <div class="d-print-none mb-4">
+
+        <h2>Štampa narudžbina</h2>
+
+        <button type="button"
+                class="btn btn-primary"
+                onclick="window.print()">
+            Štampaj
+        </button>
+
+        <a asp-action="Index"
+           class="btn btn-secondary">
+            Nazad
+        </a>
+
+    </div>
+
+    <div class="text-center mb-4">
+        <h2>Poslastičarnica</h2>
+        <h4>Pregled narudžbina</h4>
+
+        <p>
+            Datum štampe:
+            @DateTime.Now.ToString("dd.MM.yyyy. HH:mm")
+        </p>
+    </div>
+
+    @if (Model == null || Model.Count == 0)
+    {
+        <p>Nema narudžbina za prikaz.</p>
+    }
+    else
+    {
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Kupac</th>
+                    <th>Telefon</th>
+                    <th>Datum preuzimanja</th>
+                    <th>Status</th>
+                    <th>Cena</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var narudzbina in Model)
+                {
+                    <tr>
+                        <td>@narudzbina.NarudzbinaID</td>
+
+                        <td>
+                            @narudzbina.ImePrezimeKupca
+                        </td>
+
+                        <td>
+                            @narudzbina.BrojTelefona
+                        </td>
+
+                        <td>
+                            @(narudzbina.DatumPreuzimanja
+                                .ToString("dd.MM.yyyy."))
+                        </td>
+
+                        <td>
+                            @narudzbina.Status
+                        </td>
+
+                        <td>
+                            @narudzbina.UkupnaCena.ToString("N2") din
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    }
+
+</div>

@@ -1,0 +1,386 @@
+﻿html {
+    font-size: 14px;
+    min-height: 100%;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: #fffaf8;
+    color: #4f3c3c;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+
+
+
+.slatki-navbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #f2dddd;
+    padding: 14px 0;
+    box-shadow: 0 3px 12px rgba(100, 70, 70, 0.08);
+}
+
+.slatki-logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: #9b5c68 !important;
+    margin-right: 35px;
+}
+
+.navbar .nav-link {
+    color: #5e4747 !important;
+    font-weight: 500;
+    margin-right: 10px;
+    transition: 0.2s;
+}
+
+    .navbar .nav-link:hover {
+        color: #c17b89 !important;
+    }
+
+.korisnik-ime {
+    color: #7a6262 !important;
+}
+
+.btn-odjava {
+    background-color: #f7e4e7;
+    color: #9b5c68;
+    border: none;
+    border-radius: 20px;
+    padding: 7px 18px;
+    font-weight: 600;
+}
+
+    .btn-odjava:hover {
+        background-color: #efcfd5;
+        color: #804854;
+    }
+
+
+
+.hero-sekcija {
+    background: linear-gradient( 135deg, #fff7f5 0%, #fbe8eb 100% );
+    padding: 80px 0;
+}
+
+.hero-tekst {
+    padding: 20px;
+}
+
+.hero-mali-naslov {
+    color: #c17b89;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.hero-tekst h1 {
+    margin-top: 8px;
+    color: #8e5360;
+    font-size: 55px;
+    font-weight: 750;
+}
+
+.hero-tekst h2 {
+    margin-top: 15px;
+    color: #503d3d;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.hero-tekst p {
+    margin-top: 20px;
+    color: #766060;
+    font-size: 18px;
+    max-width: 520px;
+    line-height: 1.7;
+}
+
+.hero-torta {
+    background-color: rgba(255, 255, 255, 0.78);
+    border-radius: 35px;
+    padding: 45px;
+    max-width: 430px;
+    margin: auto;
+    box-shadow: 0 15px 40px rgba(130, 90, 90, 0.12);
+}
+
+.torta-emoji {
+    font-size: 100px;
+    margin-bottom: 15px;
+}
+
+.hero-torta h3 {
+    color: #8e5360;
+    font-weight: 650;
+}
+
+.hero-torta p {
+    color: #806b6b;
+    line-height: 1.7;
+}
+
+
+
+.slatki-primary {
+    background-color: #b96f7d;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 11px 24px;
+    font-weight: 600;
+}
+
+    .slatki-primary:hover {
+        background-color: #9e5865;
+        color: white;
+    }
+
+.slatki-secondary {
+    background-color: white;
+    color: #a5616d;
+    border: 1px solid #d5a3ac;
+    border-radius: 25px;
+    padding: 10px 24px;
+    font-weight: 600;
+}
+
+    .slatki-secondary:hover {
+        background-color: #f9e6e9;
+        color: #8f4c58;
+    }
+
+
+
+
+.kartice-sekcija {
+    padding-top: 70px;
+    padding-bottom: 90px;
+}
+
+.sekcija-naslov {
+    color: #704e54;
+    font-weight: 700;
+}
+
+.sekcija-podnaslov {
+    color: #9b8585;
+}
+
+.slatki-card {
+    background-color: white;
+    border-radius: 25px;
+    padding: 40px 35px;
+    text-align: center;
+    height: 100%;
+    border: 1px solid #f1dddd;
+    box-shadow: 0 8px 25px rgba(100, 65, 65, 0.08);
+    transition: 0.25s;
+}
+
+    .slatki-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 14px 35px rgba(100, 65, 65, 0.13);
+    }
+
+.card-ikonica {
+    font-size: 55px;
+    margin-bottom: 18px;
+}
+
+.slatki-card h3 {
+    color: #865562;
+    font-weight: 650;
+}
+
+.slatki-card p {
+    color: #806e6e;
+    min-height: 70px;
+    margin-bottom: 25px;
+    line-height: 1.7;
+}
+
+.slatki-prica {
+    background-color: #ffffff;
+    border: 1px solid #f0d9dd;
+    border-radius: 28px;
+    padding: 45px 55px;
+    box-shadow: 0 10px 30px rgba(100, 65, 65, 0.08);
+    color: #765f5f;
+    font-size: 17px;
+    line-height: 1.8;
+}
+
+    .slatki-prica p {
+        margin-bottom: 18px;
+    }
+
+        .slatki-prica p:last-child {
+            margin-bottom: 0;
+        }
+
+
+
+
+.container h2 {
+    color: #704e54;
+    font-weight: 700;
+}
+
+.card {
+    border-radius: 18px;
+    border: 1px solid #f1dddd;
+    box-shadow: 0 5px 18px rgba(100, 65, 65, 0.06);
+}
+
+.table {
+    background-color: white;
+}
+
+    .table thead {
+        background-color: #f7e4e7;
+        color: #64494e;
+    }
+
+    .table th {
+        border-color: #edd6da;
+    }
+
+    .table td {
+        vertical-align: middle;
+    }
+
+
+
+
+.btn-primary {
+    background-color: #b96f7d;
+    border-color: #b96f7d;
+}
+
+    .btn-primary:hover {
+        background-color: #9e5865;
+        border-color: #9e5865;
+    }
+
+.btn-warning {
+    background-color: #f2c98c;
+    border-color: #f2c98c;
+    color: #59452c;
+}
+
+    .btn-warning:hover {
+        background-color: #e7b86f;
+        border-color: #e7b86f;
+        color: #4f3c28;
+    }
+
+.btn-danger {
+    background-color: #c86b73;
+    border-color: #c86b73;
+}
+
+    .btn-danger:hover {
+        background-color: #ad555d;
+        border-color: #ad555d;
+    }
+
+
+
+.form-control,
+.form-select {
+    border-radius: 10px;
+    border: 1px solid #ddcccc;
+}
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #c88792;
+        box-shadow: 0 0 0 0.2rem rgba(185, 111, 125, 0.15);
+    }
+
+
+
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    letter-spacing: -0.2px;
+}
+
+h1 {
+    color: #8e5360;
+}
+
+
+
+
+.slatki-footer {
+    background-color: #704e54;
+    color: #fbeff1;
+    padding: 22px 0;
+    margin-top: 60px;
+}
+
+
+
+
+@media (max-width: 768px) {
+
+    .hero-sekcija {
+        padding: 45px 0;
+    }
+
+    .hero-tekst {
+        text-align: center;
+    }
+
+        .hero-tekst h1 {
+            font-size: 42px;
+        }
+
+        .hero-tekst h2 {
+            font-size: 23px;
+        }
+
+        .hero-tekst p {
+            font-size: 16px;
+        }
+
+    .hero-torta {
+        margin-top: 40px;
+    }
+
+    .slatki-prica {
+        padding: 30px 25px;
+    }
+
+    .slatki-card {
+        padding: 30px 25px;
+    }
+}
+
+
+
+
+@media print {
+
+    .slatki-navbar,
+    .slatki-footer,
+    .d-print-none {
+        display: none !important;
+    }
+
+    body {
+        background-color: white;
+    }
+}

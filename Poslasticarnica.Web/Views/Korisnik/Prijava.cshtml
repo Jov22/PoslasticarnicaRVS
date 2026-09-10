@@ -1,0 +1,105 @@
+﻿@model Poslasticarnica.Web.Models.PrijavaViewModel
+
+@{
+    ViewData["Title"] = "Prijava";
+}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-5">
+
+            <div class="card shadow-sm p-4">
+
+                <div class="text-center mb-4">
+
+                    <div style="font-size: 55px;">
+                        🍰
+                    </div>
+
+                    <h2 class="mt-2">
+                        Slatki Kutak
+                    </h2>
+
+                    <p class="text-muted">
+                        Prijavite se na svoj nalog
+                    </p>
+
+                </div>
+
+                @if (TempData["Poruka"] != null)
+                {
+                    <div class="alert alert-success">
+                        @TempData["Poruka"]
+                    </div>
+                }
+
+                @if (ViewBag.Greska != null)
+                {
+                    <div class="alert alert-danger">
+                        @ViewBag.Greska
+                    </div>
+                }
+
+                <form asp-action="Prijava"
+                      method="post">
+
+                    <div class="mb-3">
+
+                        <label asp-for="KorisnickoIme"
+                               class="form-label">
+                            Korisničko ime
+                        </label>
+
+                        <input asp-for="KorisnickoIme"
+                               class="form-control"
+                               placeholder="Korisničko ime" />
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <label asp-for="Lozinka"
+                               class="form-label">
+                            Lozinka
+                        </label>
+
+                        <input asp-for="Lozinka"
+                               type="password"
+                               class="form-control"
+                               placeholder="Lozinka" />
+
+                    </div>
+
+                    <button type="submit"
+                            class="btn slatki-primary w-100">
+
+                        Prijavi se
+
+                    </button>
+
+                </form>
+
+                <div class="text-center mt-4">
+
+                    <span class="text-muted">
+                        Nemate nalog?
+                    </span>
+
+                    <a asp-action="Registracija"
+                       class="ms-1">
+
+                        Registrujte se
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

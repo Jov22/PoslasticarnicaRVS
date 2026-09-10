@@ -1,0 +1,128 @@
+﻿@model Poslasticarnica.Web.Models.NarudzbinaViewModel
+
+@{
+    ViewData["Title"] = "Potvrda narudžbine";
+
+    var tipTorte = Model.TipoviTorte
+        .FirstOrDefault(t =>
+            t.TipTorteID == Model.Narudzbina.TipTorteID);
+}
+
+<div class="container mt-4">
+
+    <div class="d-print-none mb-4">
+
+        <button type="button"
+                class="btn btn-primary"
+                onclick="window.print()">
+            Štampaj potvrdu
+        </button>
+
+        <a asp-action="Detalji"
+           asp-route-id="@Model.Narudzbina.NarudzbinaID"
+           class="btn btn-secondary">
+            Nazad
+        </a>
+
+    </div>
+
+    <div class="text-center mb-4">
+
+        <h2>POSLASTIČARNICA „Slatki Kutak”</h2>
+
+        <p>
+            Slatka 15, Zrenjanin |
+            Telefon: 061/123-456
+        </p>
+
+        <h3 class="mt-4">
+            POTVRDA O NARUDŽBINI TORTE
+        </h3>
+
+    </div>
+
+    <hr />
+
+    <div class="mt-4">
+
+        <p>
+            <strong>Broj narudžbine:</strong>
+            @Model.Narudzbina.NarudzbinaID
+        </p>
+
+        <p>
+            <strong>Datum kreiranja:</strong>
+            @(Model.Narudzbina.DatumKreiranja.ToString("dd.MM.yyyy. HH:mm"))
+        </p>
+
+        <h5 class="mt-4">
+            Podaci o kupcu
+        </h5>
+
+        <p>
+            <strong>Ime i prezime:</strong>
+            @Model.Narudzbina.ImePrezimeKupca
+        </p>
+
+        <p>
+            <strong>Broj telefona:</strong>
+            @Model.Narudzbina.BrojTelefona
+        </p>
+
+        <p>
+            <strong>Email:</strong>
+            @Model.Narudzbina.Email
+        </p>
+
+        <h5 class="mt-4">
+            Podaci o narudžbini
+        </h5>
+
+        <p>
+            <strong>Tip torte:</strong>
+            @(tipTorte != null
+                ? tipTorte.Naziv
+                : "Nepoznat tip")
+        </p>
+
+        <p>
+            <strong>Datum preuzimanja:</strong>
+            @(Model.Narudzbina.DatumPreuzimanja.ToString("dd.MM.yyyy. HH:mm"))
+        </p>
+
+        <p>
+            <strong>Status:</strong>
+            @Model.Narudzbina.Status
+        </p>
+
+        <p>
+            <strong>Ukupna cena:</strong>
+            @Model.Narudzbina.UkupnaCena.ToString("N2") din
+        </p>
+
+        <p>
+            <strong>Napomena:</strong>
+            @(string.IsNullOrWhiteSpace(Model.Narudzbina.Napomena)
+                ? "-"
+                : Model.Narudzbina.Napomena)
+        </p>
+
+    </div>
+
+    <hr class="mt-5" />
+
+    <div class="row mt-5 text-center">
+
+        <div class="col-6">
+            <p>________________________</p>
+            <p>Potpis kupca</p>
+        </div>
+
+        <div class="col-6">
+            <p>________________________</p>
+            <p>Potpis prodavca</p>
+        </div>
+
+    </div>
+
+</div>

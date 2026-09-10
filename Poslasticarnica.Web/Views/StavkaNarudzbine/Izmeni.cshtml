@@ -1,0 +1,112 @@
+﻿@model Poslasticarnica.Web.Models.StavkaNarudzbineViewModel
+
+@{
+    ViewData["Title"] = "Izmeni stavku";
+}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h2>Izmeni proizvod</h2>
+
+                    <p class="text-muted">
+                        Promenite proizvod ili količinu.
+                        Cena se automatski određuje iz cenovnika.
+                    </p>
+
+                    <hr />
+
+                    @if (ViewBag.Greska != null)
+                    {
+                        <div class="alert alert-danger">
+                            @ViewBag.Greska
+                        </div>
+                    }
+
+                    <form asp-action="Izmeni"
+                          method="post">
+
+                        <input asp-for="Stavka.StavkaNarudzbineID"
+                               type="hidden" />
+
+                        <input asp-for="Stavka.NarudzbinaID"
+                               type="hidden" />
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Proizvod
+                            </label>
+
+                            <select asp-for="Stavka.ProizvodID"
+                                    class="form-select">
+
+                                @foreach (var proizvod in Model.Proizvodi)
+                                {
+                                    <option value="@proizvod.ProizvodID">
+                                        @proizvod.Naziv -
+                                        @proizvod.Cena.ToString("N2") din
+                                        (@proizvod.Kategorija)
+                                    </option>
+                                }
+
+                            </select>
+
+                            <span asp-validation-for="Stavka.ProizvodID"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Količina
+                            </label>
+
+                            <input asp-for="Stavka.Kolicina"
+                                   type="number"
+                                   min="1"
+                                   class="form-control" />
+
+                            <span asp-validation-for="Stavka.Kolicina"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <button type="submit"
+                                class="btn btn-warning">
+                            Sačuvaj izmene
+                        </button>
+
+                        <a asp-controller="Narudzbina"
+                           asp-action="Detalji"
+                           asp-route-id="@Model.Stavka.NarudzbinaID"
+                           class="btn btn-secondary">
+                            Odustani
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

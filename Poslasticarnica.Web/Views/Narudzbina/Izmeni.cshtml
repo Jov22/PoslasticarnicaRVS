@@ -1,0 +1,216 @@
+﻿@model Poslasticarnica.Web.Models.NarudzbinaViewModel
+
+@{
+    ViewData["Title"] = "Izmeni narudžbinu";
+}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h2>Izmeni narudžbinu</h2>
+
+                    <p class="text-muted">
+                        Izmenite podatke o kupcu ili
+                        terminu preuzimanja.
+                    </p>
+
+                    <hr />
+
+                    @if (ViewBag.Greska != null)
+                    {
+                        <div class="alert alert-danger">
+                            @ViewBag.Greska
+                        </div>
+                    }
+
+                    <form asp-action="Izmeni"
+                          method="post">
+
+                        <input asp-for="Narudzbina.NarudzbinaID"
+                               type="hidden" />
+
+                        <input asp-for="Narudzbina.DatumKreiranja"
+                               type="hidden" />
+
+                        <input asp-for="Narudzbina.Status"
+                               type="hidden" />
+
+                        <input asp-for="Narudzbina.UkupnaCena"
+                               type="hidden" />
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Ime i prezime kupca
+                                </label>
+
+                                <input asp-for="Narudzbina.ImePrezimeKupca"
+                                       class="form-control" />
+
+                                <span asp-validation-for="Narudzbina.ImePrezimeKupca"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Broj telefona
+                                </label>
+
+                                <input asp-for="Narudzbina.BrojTelefona"
+                                       class="form-control" />
+
+                                <span asp-validation-for="Narudzbina.BrojTelefona"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Email
+                            </label>
+
+                            <input asp-for="Narudzbina.Email"
+                                   type="email"
+                                   class="form-control" />
+
+                            <span asp-validation-for="Narudzbina.Email"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Datum i vreme preuzimanja
+                                </label>
+
+                                <input asp-for="Narudzbina.DatumPreuzimanja"
+                                       type="datetime-local"
+                                       asp-format="{0:yyyy-MM-ddTHH:mm}"
+                                       class="form-control" />
+
+                                <span asp-validation-for="Narudzbina.DatumPreuzimanja"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Tip torte
+                                </label>
+
+                                <select asp-for="Narudzbina.TipTorteID"
+                                        class="form-select">
+
+                                    <option value="0">
+                                        -- Izaberite tip torte --
+                                    </option>
+
+                                    @foreach (var tip in Model.TipoviTorte)
+                                    {
+                                        <option value="@tip.TipTorteID">
+                                            @tip.Naziv
+                                        </option>
+                                    }
+
+                                </select>
+
+                                <span asp-validation-for="Narudzbina.TipTorteID"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Napomena
+                            </label>
+
+                            <textarea asp-for="Narudzbina.Napomena"
+                                      class="form-control"
+                                      rows="3">
+                            </textarea>
+
+                            <span asp-validation-for="Narudzbina.Napomena"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <div class="alert alert-light border">
+
+                            <strong>Trenutna ukupna cena:</strong>
+
+                            @(Model.Narudzbina.UkupnaCena.ToString("N2")) din
+
+                            <br />
+
+                            <span class="text-muted">
+                                Cena se menja automatski na osnovu
+                                stavki narudžbine.
+                            </span>
+
+                        </div>
+
+
+                        <button type="submit"
+                                class="btn btn-warning">
+                            Sačuvaj izmene
+                        </button>
+
+                        <a asp-action="Detalji"
+                           asp-route-id="@Model.Narudzbina.NarudzbinaID"
+                           class="btn btn-secondary">
+                            Odustani
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

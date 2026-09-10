@@ -1,0 +1,311 @@
+﻿@model Poslasticarnica.Web.Models.NarudzbinaViewModel
+
+@{
+    ViewData["Title"] = "Detalji narudžbine";
+
+    var tipTorte = Model.TipoviTorte
+        .FirstOrDefault(t =>
+            t.TipTorteID == Model.Narudzbina.TipTorteID);
+
+    decimal ukupnoStavke =
+        Model.Stavke.Sum(s => s.UkupnaCenaStavke);
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between
+                align-items-center mb-3">
+
+        <div>
+            <h2>Detalji narudžbine</h2>
+
+            <p class="text-muted mb-0">
+                Pregled podataka i stavki narudžbine
+            </p>
+        </div>
+
+        <a asp-action="Index"
+           class="btn btn-secondary">
+            Nazad
+        </a>
+
+    </div>
+
+    <hr />
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body p-4">
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <p>
+                        <strong>ID narudžbine:</strong><br />
+                        @Model.Narudzbina.NarudzbinaID
+                    </p>
+
+                    <p>
+                        <strong>Ime i prezime kupca:</strong><br />
+                        @Model.Narudzbina.ImePrezimeKupca
+                    </p>
+
+                    <p>
+                        <strong>Broj telefona:</strong><br />
+                        @Model.Narudzbina.BrojTelefona
+                    </p>
+
+                    <p>
+                        <strong>Email:</strong><br />
+                        @Model.Narudzbina.Email
+                    </p>
+
+                    <p>
+                        <strong>Tip torte:</strong><br />
+
+                        @(tipTorte != null
+                            ? tipTorte.Naziv
+                            : "Nepoznat tip")
+                    </p>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <p>
+                        <strong>Datum kreiranja:</strong><br />
+
+                        @(Model.Narudzbina.DatumKreiranja
+                            .ToString("dd.MM.yyyy. HH:mm"))
+                    </p>
+
+                    <p>
+                        <strong>Datum preuzimanja:</strong><br />
+
+                        @(Model.Narudzbina.DatumPreuzimanja
+                            .ToString("dd.MM.yyyy. HH:mm"))
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong><br />
+
+                        @if (Model.Narudzbina.Status == "Hitno")
+                        {
+                            <span class="badge bg-danger">
+                                Hitno
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success">
+                                Standardno
+                            </span>
+                        }
+                    </p>
+
+                    <p>
+                        <strong>Ukupna cena narudžbine:</strong><br />
+
+                        @(Model.Narudzbina.UkupnaCena
+                            .ToString("N2")) din
+                    </p>
+
+                    <p>
+                        <strong>Napomena:</strong><br />
+
+                        @(string.IsNullOrWhiteSpace(
+                            Model.Narudzbina.Napomena)
+                            ? "-"
+                            : Model.Narudzbina.Napomena)
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="mt-3">
+
+                <a asp-action="Izmeni"
+                   asp-route-id="@Model.Narudzbina.NarudzbinaID"
+                   class="btn btn-warning">
+                    Izmeni narudžbinu
+                </a>
+
+                <a asp-action="Potvrda"
+                   asp-route-id="@Model.Narudzbina.NarudzbinaID"
+                   target="_blank"
+                   class="btn btn-primary">
+                    Potvrda
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card shadow-sm">
+
+        <div class="card-body p-4">
+
+            <div class="d-flex justify-content-between
+                        align-items-center mb-3">
+
+                <div>
+
+                    <h3 class="mb-1">
+                        Stavke narudžbine
+                    </h3>
+
+                    <p class="text-muted mb-0">
+                        Proizvodi koji pripadaju ovoj narudžbini
+                    </p>
+
+                </div>
+
+                <a asp-controller="StavkaNarudzbine"
+                   asp-action="Dodaj"
+                   asp-route-narudzbinaID="@Model.Narudzbina.NarudzbinaID"
+                   class="btn slatki-primary">
+
+                    + Dodaj stavku
+
+                </a>
+
+            </div>
+
+
+            @if (Model.Stavke == null ||
+            Model.Stavke.Count == 0)
+            {
+                <div class="alert alert-light border mt-3">
+
+                    Ova narudžbina trenutno nema stavke.
+
+                    Kliknite na
+                    <strong>Dodaj stavku</strong>
+                    da biste dodali proizvod.
+
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-bordered
+                                  table-hover align-middle">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Proizvod
+                                </th>
+
+                                <th class="text-center">
+                                    Količina
+                                </th>
+
+                                <th class="text-end">
+                                    Cena po komadu
+                                </th>
+
+                                <th class="text-end">
+                                    Ukupno
+                                </th>
+
+                                <th class="text-center">
+                                    Akcije
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var stavka in Model.Stavke)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @stavka.NazivProizvoda
+                                    </td>
+
+                                    <td class="text-center">
+                                        @stavka.Kolicina
+                                    </td>
+
+                                    <td class="text-end">
+                                        @(stavka.CenaPoKomadu
+                                            .ToString("N2")) din
+                                    </td>
+
+                                    <td class="text-end fw-bold">
+                                        @(stavka.UkupnaCenaStavke
+                                            .ToString("N2")) din
+                                    </td>
+
+                                    <td class="text-center">
+
+                                        <a asp-controller="StavkaNarudzbine"
+                                           asp-action="Izmeni"
+                                           asp-route-id="@stavka.StavkaNarudzbineID"
+                                           class="btn btn-sm btn-warning">
+
+                                            Izmeni
+
+                                        </a>
+
+                                        <a asp-controller="StavkaNarudzbine"
+                                           asp-action="Obrisi"
+                                           asp-route-id="@stavka.StavkaNarudzbineID"
+                                           class="btn btn-sm btn-danger">
+
+                                            Obriši
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                        <tfoot>
+
+                            <tr>
+
+                                <td colspan="3"
+                                    class="text-end fw-bold">
+
+                                    Ukupna vrednost stavki:
+
+                                </td>
+
+                                <td class="text-end fw-bold">
+
+                                    @(ukupnoStavke.ToString("N2")) din
+
+                                </td>
+
+                                <td></td>
+
+                            </tr>
+
+                        </tfoot>
+
+                    </table>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>

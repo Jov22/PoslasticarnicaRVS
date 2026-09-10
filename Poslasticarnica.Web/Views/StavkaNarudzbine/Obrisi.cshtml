@@ -1,0 +1,82 @@
+﻿@model Poslasticarnica.Modeli.StavkaNarudzbine
+
+@{
+    ViewData["Title"] = "Obriši stavku";
+}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h2>Obriši stavku</h2>
+
+                    <div class="alert alert-warning mt-3">
+                        Da li ste sigurni da želite
+                        da obrišete ovu stavku?
+                    </div>
+
+                    @if (ViewBag.Greska != null)
+                    {
+                        <div class="alert alert-danger">
+                            @ViewBag.Greska
+                        </div>
+                    }
+
+                    <hr />
+
+                    <p>
+                        <strong>Proizvod:</strong>
+                        @Model.NazivProizvoda
+                    </p>
+
+                    <p>
+                        <strong>Količina:</strong>
+                        @Model.Kolicina
+                    </p>
+
+                    <p>
+                        <strong>Cena po komadu:</strong>
+                        @(Model.CenaPoKomadu.ToString("N2")) din
+                    </p>
+
+                    <p>
+                        <strong>Ukupno:</strong>
+                        @(Model.UkupnaCenaStavke.ToString("N2")) din
+                    </p>
+
+                    <form asp-action="Obrisi"
+                          method="post">
+
+                        <input type="hidden"
+                               name="id"
+                               value="@Model.StavkaNarudzbineID" />
+
+                        <button type="submit"
+                                class="btn btn-danger">
+                            Obriši
+                        </button>
+
+                        <a asp-controller="Narudzbina"
+                           asp-action="Detalji"
+                           asp-route-id="@Model.NarudzbinaID"
+                           class="btn btn-secondary">
+                            Odustani
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

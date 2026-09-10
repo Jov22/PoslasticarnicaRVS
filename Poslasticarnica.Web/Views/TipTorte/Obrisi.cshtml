@@ -1,0 +1,37 @@
+﻿@model Poslasticarnica.Modeli.TipTorte
+
+@{
+    ViewData["Title"] = "Brisanje tipa torte";
+}
+
+<div class="container mt-4">
+
+    <h2>Brisanje tipa torte</h2>
+
+    <hr />
+
+    <div class="alert alert-warning">
+        Da li ste sigurni da želite da obrišete tip torte:
+        <strong>@Model.Naziv</strong>?
+    </div>
+
+    <form asp-action="Obrisi"
+          method="post">
+
+        <input type="hidden"
+               name="id"
+               value="@Model.TipTorteID" />
+
+        <button type="submit"
+                class="btn btn-danger">
+            Obriši
+        </button>
+
+        <a asp-action="Index"
+           class="btn btn-secondary">
+            Odustani
+        </a>
+
+    </form>
+
+</div>

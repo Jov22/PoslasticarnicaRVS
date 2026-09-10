@@ -1,0 +1,283 @@
+﻿@{
+    ViewData["Title"] = "Početna";
+}
+
+<div class="hero-sekcija">
+
+    <div class="container">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-6">
+
+                <div class="hero-tekst">
+
+                    <span class="hero-mali-naslov">
+                        PORODIČNA POSLASTIČARNICA
+                    </span>
+
+                    <h1>
+                        Slatki Kutak
+                    </h1>
+
+                    <h2>
+                        Tradicija slatkih trenutaka.
+                    </h2>
+
+                    <p>
+                        Slatki Kutak je porodična poslastičarnica nastala iz ljubavi
+                        prema domaćim tortama, pažljivo biranim sastojcima i
+                        receptima koji se prenose sa generacije na generaciju.
+                    </p>
+
+                    <p>
+                        Svaka torta se priprema sa posebnom pažnjom, kako bi
+                        rođendani, proslave i važni porodični trenuci bili još lepši
+                        i slađi.
+                    </p>
+
+                    <div class="mt-4">
+
+                        <a asp-controller="Narudzbina"
+                           asp-action="Dodaj"
+                           class="btn slatki-primary me-2">
+                            + Nova narudžbina
+                        </a>
+
+                        <a asp-controller="Narudzbina"
+                           asp-action="Index"
+                           class="btn slatki-secondary">
+                            Pregled narudžbina
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-6 text-center">
+
+                <div class="hero-torta">
+
+                    <div class="torta-emoji">
+                        🎂
+                    </div>
+
+                    <h3>
+                        Ukus koji okuplja porodicu
+                    </h3>
+
+                    <p>
+                        Od klasičnih porodičnih recepata do torti za najvažnije
+                        proslave, svaki detalj pripremamo sa pažnjom.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="container kartice-sekcija">
+
+    <div class="text-center mb-5">
+
+        <h2 class="sekcija-naslov">
+            Dobrodošli u Slatki Kutak
+        </h2>
+
+        <p class="sekcija-podnaslov">
+            Mesto gde se tradicija, domaći ukus i posebni trenuci spajaju.
+        </p>
+
+    </div>
+
+
+    <div class="row justify-content-center g-4">
+
+        <div class="col-md-4">
+
+            <div class="slatki-card">
+
+                <div class="card-ikonica">
+                    👨‍👩‍👧‍👦
+                </div>
+
+                <h3>
+                    Porodična tradicija
+                </h3>
+
+                <p>
+                    Ljubav prema poslastičarstvu negujemo kroz porodične recepte,
+                    iskustvo i pažnju prema svakom detalju.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="slatki-card">
+
+                <div class="card-ikonica">
+                    🧁
+                </div>
+
+                <h3>
+                    Pažljivo pripremljeno
+                </h3>
+
+                <p>
+                    Svaka narudžbina se priprema posebno, uz poštovanje želja
+                    kupaca i dogovorenog termina preuzimanja.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="slatki-card">
+
+                <div class="card-ikonica">
+                    💗
+                </div>
+
+                <h3>
+                    Za posebne trenutke
+                </h3>
+
+                <p>
+                    Rođendani, godišnjice i porodična okupljanja zaslužuju tortu
+                    koja će taj trenutak učiniti još lepšim.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="row justify-content-center mt-5">
+
+        <div class="col-lg-10">
+
+            <div class="slatki-prica">
+
+                <div class="text-center mb-3">
+
+                    <span class="hero-mali-naslov">
+                        NAŠA PRIČA
+                    </span>
+
+                    <h2 class="sekcija-naslov mt-2">
+                        Više od poslastičarnice
+                    </h2>
+
+                </div>
+
+                <p>
+                    Za nas torta nije samo poslastica. Ona je deo rođendanskih
+                    svećica, porodičnih fotografija, iznenađenja i uspomena koje
+                    ostaju godinama.
+                </p>
+
+                <p>
+                    Zato se u Slatkom Kutku trudimo da svaka narudžbina dobije
+                    pažnju koju zaslužuje. Spoj porodične tradicije i savremenog
+                    načina poslovanja omogućava nam da svaki zahtev kupca
+                    evidentiramo jednostavno, precizno i na vreme.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="text-center mt-5">
+
+        <h2 class="sekcija-naslov">
+            Upravljanje poslastičarnicom
+        </h2>
+
+        <p class="sekcija-podnaslov mb-4">
+            Brz pristup svakodnevnim poslovima.
+        </p>
+
+    </div>
+
+
+    <div class="row justify-content-center g-4">
+
+        <div class="col-md-5">
+
+            <div class="slatki-card">
+
+                <div class="card-ikonica">
+                    📋
+                </div>
+
+                <h3>
+                    Narudžbine
+                </h3>
+
+                <p>
+                    Dodajte nove narudžbine, pregledajte postojeće i upravljajte
+                    podacima o kupcima i terminima preuzimanja.
+                </p>
+
+                <a asp-controller="Narudzbina"
+                   asp-action="Index"
+                   class="btn slatki-primary">
+                    Otvori narudžbine
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-5">
+
+            <div class="slatki-card">
+
+                <div class="card-ikonica">
+                    🍰
+                </div>
+
+                <h3>
+                    Tipovi torti
+                </h3>
+
+                <p>
+                    Pregledajte i uređujte ponudu dostupnih tipova torti u
+                    Slatkom Kutku.
+                </p>
+
+                <a asp-controller="TipTorte"
+                   asp-action="Index"
+                   class="btn slatki-primary">
+                    Pogledaj ponudu
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

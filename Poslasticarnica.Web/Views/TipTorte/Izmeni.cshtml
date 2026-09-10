@@ -1,0 +1,49 @@
+﻿@model Poslasticarnica.Modeli.TipTorte
+
+@{
+    ViewData["Title"] = "Izmena tipa torte";
+}
+
+<div class="container mt-4">
+
+    <h2>Izmena tipa torte</h2>
+
+    <hr />
+
+    @if (ViewBag.Greska != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.Greska
+        </div>
+    }
+
+    <form asp-action="Izmeni"
+          method="post">
+
+        <input type="hidden"
+               asp-for="TipTorteID" />
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Naziv
+            </label>
+
+            <input asp-for="Naziv"
+                   class="form-control" />
+
+        </div>
+
+        <button type="submit"
+                class="btn btn-warning">
+            Sačuvaj izmene
+        </button>
+
+        <a asp-action="Index"
+           class="btn btn-secondary">
+            Odustani
+        </a>
+
+    </form>
+
+</div>

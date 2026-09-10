@@ -1,0 +1,207 @@
+﻿@model List<Poslasticarnica.Modeli.Narudzbina>
+
+@{
+    ViewData["Title"] = "Narudžbine";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>Narudžbine</h2>
+            <p class="text-muted mb-0">
+                Pregled svih narudžbina torti
+            </p>
+        </div>
+
+        <a asp-controller="Narudzbina"
+           asp-action="Dodaj"
+           class="btn btn-primary">
+            Nova narudžbina
+        </a>
+    </div>
+
+    <form asp-controller="Narudzbina"
+          asp-action="Index"
+          method="get"
+          class="row g-2 mb-3">
+
+        <div class="col-md-5">
+            <input type="text"
+                   name="pretraga"
+                   value="@ViewBag.Pretraga"
+                   class="form-control"
+                   placeholder="Pretraga po imenu kupca" />
+        </div>
+
+        <div class="col-md-3">
+            <select name="status"
+                    class="form-select">
+
+                <option value="">
+                    Svi statusi
+                </option>
+
+                @if (ViewBag.Status == "Hitno")
+                {
+                    <option value="Hitno" selected>
+                        Hitno
+                    </option>
+                }
+                else
+                {
+                    <option value="Hitno">
+                        Hitno
+                    </option>
+                }
+
+                @if (ViewBag.Status == "Standardno")
+                {
+                    <option value="Standardno" selected>
+                        Standardno
+                    </option>
+                }
+                else
+                {
+                    <option value="Standardno">
+                        Standardno
+                    </option>
+                }
+
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <button type="submit"
+                    class="btn btn-primary w-100">
+                Pretraži
+            </button>
+        </div>
+
+        <div class="col-md-2">
+            <a asp-controller="Narudzbina"
+               asp-action="Index"
+               class="btn btn-secondary w-100">
+                Poništi
+            </a>
+        </div>
+
+    </form>
+
+    <div class="mb-3">
+
+        <a asp-controller="Narudzbina"
+           asp-action="Stampa"
+           target="_blank"
+           class="btn btn-outline-dark">
+            Štampaj sve
+        </a>
+
+        <a asp-controller="Narudzbina"
+           asp-action="StampaFiltrirano"
+           asp-route-pretraga="@ViewBag.Pretraga"
+           asp-route-status="@ViewBag.Status"
+           target="_blank"
+           class="btn btn-outline-primary">
+            Štampaj filtrirano
+        </a>
+
+    </div>
+
+    @if (ViewBag.Greska != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.Greska
+        </div>
+    }
+
+    @if (Model == null || Model.Count == 0)
+    {
+        <div class="alert alert-info">
+            Nema narudžbina koje odgovaraju zadatim kriterijumima.
+        </div>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Kupac</th>
+                    <th>Telefon</th>
+                    <th>Datum preuzimanja</th>
+                    <th>Status</th>
+                    <th>Cena</th>
+                    <th>Akcije</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var narudzbina in Model)
+                {
+                    <tr>
+
+                        <td>
+                            @narudzbina.NarudzbinaID
+                        </td>
+
+                        <td>
+                            @narudzbina.ImePrezimeKupca
+                        </td>
+
+                        <td>
+                            @narudzbina.BrojTelefona
+                        </td>
+
+                        <td>
+                            @(narudzbina.DatumPreuzimanja.ToString("dd.MM.yyyy."))
+                        </td>
+
+                        <td>
+                            @if (narudzbina.Status == "Hitno")
+                            {
+                                <span class="badge bg-danger">
+                                    Hitno
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">
+                                    Standardno
+                                </span>
+                            }
+                        </td>
+
+                        <td>
+                            @narudzbina.UkupnaCena.ToString("N2") din
+                        </td>
+
+                        <td>
+                            <a asp-action="Detalji"
+                               asp-route-id="@narudzbina.NarudzbinaID"
+                               class="btn btn-sm btn-info">
+                                Detalji
+                            </a>
+
+                            <a asp-action="Izmeni"
+                               asp-route-id="@narudzbina.NarudzbinaID"
+                               class="btn btn-sm btn-warning">
+                                Izmeni
+                            </a>
+
+                            <a asp-action="Obrisi"
+                               asp-route-id="@narudzbina.NarudzbinaID"
+                               class="btn btn-sm btn-danger">
+                                Obriši
+                            </a>
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    }
+
+</div>

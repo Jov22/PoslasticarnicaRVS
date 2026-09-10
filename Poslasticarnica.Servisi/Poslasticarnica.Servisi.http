@@ -1,0 +1,28 @@
+@Poslasticarnica.Servisi_HostAddress = http://localhost:7016
+
+### Vrati sve narudžbine
+
+GET {{Poslasticarnica.Servisi_HostAddress}}/api/Narudzbina
+Accept: application/json
+
+###
+
+### Dodaj novu narudžbinu
+
+POST {{Poslasticarnica.Servisi_HostAddress}}/api/Narudzbina
+Content-Type: application/json
+
+{
+  "narudzbinaID": 0,
+  "imePrezimeKupca": "Jovana Marinkovic",
+  "brojTelefona": "061123456",
+  "email": "jovana@gmail.com",
+  "datumKreiranja": "2026-09-09T17:55:00",
+  "datumPreuzimanja": "2026-09-12T12:00:00",
+  "status": "Standardno",
+  "ukupnaCena": 4500,
+  "napomena": "Cokoladna torta sa natpisom",
+  "tipTorteID": 1
+}
+
+###
