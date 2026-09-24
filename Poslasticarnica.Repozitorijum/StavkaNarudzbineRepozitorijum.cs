@@ -38,13 +38,14 @@ namespace Poslasticarnica.Repozitorijum
 
                 konekcija.Open();
 
-                SqlDataReader reader =
-                    komanda.ExecuteReader();
-
-                while (reader.Read())
+                using (SqlDataReader reader =
+                    komanda.ExecuteReader())
                 {
-                    lista.Add(
-                        NapraviStavku(reader));
+                    while (reader.Read())
+                    {
+                        lista.Add(
+                            NapraviStavku(reader));
+                    }
                 }
             }
 
@@ -82,13 +83,14 @@ namespace Poslasticarnica.Repozitorijum
 
                 konekcija.Open();
 
-                SqlDataReader reader =
-                    komanda.ExecuteReader();
-
-                if (reader.Read())
+                using (SqlDataReader reader =
+                    komanda.ExecuteReader())
                 {
-                    stavka =
-                        NapraviStavku(reader);
+                    if (reader.Read())
+                    {
+                        stavka =
+                            NapraviStavku(reader);
+                    }
                 }
             }
 
@@ -197,6 +199,7 @@ namespace Poslasticarnica.Repozitorijum
             }
         }
 
+        // Cena svih dodataka za izabranu narudzbinu.
         public decimal IzracunajOsnovnuCenu(
             int narudzbinaID)
         {
@@ -234,8 +237,57 @@ namespace Poslasticarnica.Repozitorijum
                     return 0;
                 }
 
-                return Convert.ToDecimal(
-                    rezultat);
+                return Convert.ToDecimal(rezultat);
+            }
+        }
+
+        // Osnovna cena torte + cena svih izabranih dodataka.
+        // Naknada za hitnu narudzbinu se obracunava posebno.
+        public decimal IzracunajCenuTorteIDodataka(
+            int narudzbinaID)
+        {
+            using (SqlConnection konekcija =
+                new SqlConnection(
+                    Konekcija.VratiKonekcioniString()))
+            {
+                string upit = @"
+                    SELECT
+                        t.Cena +
+                        ISNULL(
+                            (
+                                SELECT SUM(p.Cena * s.Kolicina)
+                                FROM StavkaNarudzbine s
+                                INNER JOIN Proizvod p
+                                    ON s.ProizvodID = p.ProizvodID
+                                WHERE s.NarudzbinaID = n.NarudzbinaID
+                            ),
+                            0
+                        )
+                    FROM Narudzbina n
+                    INNER JOIN TipTorte t
+                        ON n.TipTorteID = t.TipTorteID
+                    WHERE n.NarudzbinaID = @NarudzbinaID";
+
+                SqlCommand komanda =
+                    new SqlCommand(upit, konekcija);
+
+                komanda.Parameters.AddWithValue(
+                    "@NarudzbinaID",
+                    narudzbinaID);
+
+                konekcija.Open();
+
+                object? rezultat =
+                    komanda.ExecuteScalar();
+
+                if (rezultat == null ||
+                    rezultat == DBNull.Value)
+                {
+                    throw new InvalidOperationException(
+                        "Narudzbina ili njen tip torte nisu pronadjeni.");
+                }
+
+                return Convert.ToDecimal(rezultat);
             }
         }
 

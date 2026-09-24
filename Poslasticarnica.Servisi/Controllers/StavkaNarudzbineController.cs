@@ -122,15 +122,14 @@ namespace Poslasticarnica.Servisi.Controllers
             StavkaNarudzbineRepozitorijum stavkaRepo =
                 new StavkaNarudzbineRepozitorijum();
 
+            // Osnovna cena torte i svih dodataka,
+            // bez naknade za hitnu narudzbinu.
             decimal osnovnaCena =
-                stavkaRepo.IzracunajOsnovnuCenu(
+                stavkaRepo.IzracunajCenuTorteIDodataka(
                     narudzbinaID);
 
-            /*
-             * Prvo postavljamo čistu osnovnu cenu.
-             * Tek onda primenjujemo poslovno pravilo,
-             * kako se 20% ne bi dodavalo više puta.
-             */
+            // Uvek krecemo od ciste cene kako se
+            // naknada za hitnost ne bi dodala vise puta.
             narudzbina.UkupnaCena =
                 osnovnaCena;
 

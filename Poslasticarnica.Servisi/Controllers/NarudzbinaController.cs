@@ -25,7 +25,8 @@ namespace Poslasticarnica.Servisi.Controllers
             NarudzbinaRepozitorijum repo =
                 new NarudzbinaRepozitorijum();
 
-            var narudzbina = repo.VratiPoId(id);
+            Narudzbina? narudzbina =
+                repo.VratiPoId(id);
 
             if (narudzbina == null)
             {
@@ -36,9 +37,37 @@ namespace Poslasticarnica.Servisi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Dodaj(Narudzbina narudzbina)
+        public IActionResult Dodaj(
+            Narudzbina narudzbina)
         {
-            narudzbina = ObradiNarudzbinu(narudzbina);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            TipTorteRepozitorijum tipRepo =
+                new TipTorteRepozitorijum();
+
+            TipTorte? tipTorte =
+                tipRepo.VratiPoId(
+                    narudzbina.TipTorteID);
+
+            if (tipTorte == null)
+            {
+                return BadRequest(
+                    "Izabrani tip torte ne postoji.");
+            }
+
+            // Nova narudzbina prvo dobija
+            // osnovnu cenu izabranog tipa torte.
+            narudzbina.UkupnaCena =
+                tipTorte.Cena;
+
+            // Tek zatim se primenjuje poslovno pravilo
+            // za hitnu narudzbinu.
+            narudzbina =
+                ObradiNarudzbinu(
+                    narudzbina);
 
             NarudzbinaRepozitorijum repo =
                 new NarudzbinaRepozitorijum();
@@ -49,14 +78,56 @@ namespace Poslasticarnica.Servisi.Controllers
         }
 
         [HttpPut]
-        public IActionResult Izmeni(Narudzbina narudzbina)
+        public IActionResult Izmeni(
+            Narudzbina narudzbina)
         {
-            // Pri izmeni se poslovno pravilo ponovo primenjuje
-            // nad osnovnom cenom koja stiže iz Web forme.
-            narudzbina = ObradiNarudzbinu(narudzbina);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
             NarudzbinaRepozitorijum repo =
                 new NarudzbinaRepozitorijum();
+
+            Narudzbina? postojecaNarudzbina =
+                repo.VratiPoId(
+                    narudzbina.NarudzbinaID);
+
+            if (postojecaNarudzbina == null)
+            {
+                return NotFound();
+            }
+
+            TipTorteRepozitorijum tipRepo =
+                new TipTorteRepozitorijum();
+
+            TipTorte? tipTorte =
+                tipRepo.VratiPoId(
+                    narudzbina.TipTorteID);
+
+            if (tipTorte == null)
+            {
+                return BadRequest(
+                    "Izabrani tip torte ne postoji.");
+            }
+
+            StavkaNarudzbineRepozitorijum stavkaRepo =
+                new StavkaNarudzbineRepozitorijum();
+
+            decimal cenaDodataka =
+                stavkaRepo.IzracunajOsnovnuCenu(
+                    narudzbina.NarudzbinaID);
+
+            // Pri izmeni ponovo racunamo cenu
+            // od nule:
+            // cena torte + svi dodaci.
+            narudzbina.UkupnaCena =
+                tipTorte.Cena +
+                cenaDodataka;
+
+            narudzbina =
+                ObradiNarudzbinu(
+                    narudzbina);
 
             repo.Izmeni(narudzbina);
 
@@ -74,23 +145,28 @@ namespace Poslasticarnica.Servisi.Controllers
             return Ok();
         }
 
-        private Narudzbina ObradiNarudzbinu(Narudzbina narudzbina)
+        private Narudzbina ObradiNarudzbinu(
+            Narudzbina narudzbina)
         {
-            string putanja = Path.Combine(
-                Directory.GetCurrentDirectory(),
-                "parametri.json");
+            string putanja =
+                Path.Combine(
+                    Directory.GetCurrentDirectory(),
+                    "parametri.json");
 
             string json =
-                System.IO.File.ReadAllText(putanja);
+                System.IO.File.ReadAllText(
+                    putanja);
 
-            var parametri =
-                JsonSerializer.Deserialize<Dictionary<string, int>>(json);
+            Dictionary<string, int>? parametri =
+                JsonSerializer.Deserialize<
+                    Dictionary<string, int>>(
+                    json);
 
             int brojDanaZaHitno =
-                parametri["BrojDanaZaHitno"];
+                parametri?["BrojDanaZaHitno"] ?? 3;
 
             int procenatDodatneNaknade =
-                parametri["ProcenatDodatneNaknade"];
+                parametri?["ProcenatDodatneNaknade"] ?? 20;
 
             ObradaNarudzbine obrada =
                 new ObradaNarudzbine();

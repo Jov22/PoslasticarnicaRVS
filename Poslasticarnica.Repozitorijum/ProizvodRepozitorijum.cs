@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-using Poslasticarnica.Modeli;
+﻿using Poslasticarnica.Modeli;
 
 namespace Poslasticarnica.Repozitorijum
 {
@@ -7,113 +6,64 @@ namespace Poslasticarnica.Repozitorijum
     {
         public List<Proizvod> VratiSve()
         {
-            List<Proizvod> lista =
-                new List<Proizvod>();
-
-            using (SqlConnection konekcija =
-                new SqlConnection(
-                    Konekcija.VratiKonekcioniString()))
+            using (KontekstBaze kontekst = new KontekstBaze())
             {
-                string upit = @"
-                    SELECT
-                        ProizvodID,
-                        Naziv,
-                        Kategorija,
-                        Cena
-                    FROM Proizvod
-                    ORDER BY Kategorija, Naziv";
-
-                SqlCommand komanda =
-                    new SqlCommand(upit, konekcija);
-
-                konekcija.Open();
-
-                SqlDataReader reader =
-                    komanda.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    Proizvod proizvod =
-                        new Proizvod
-                        {
-                            ProizvodID =
-                                Convert.ToInt32(
-                                    reader["ProizvodID"]),
-
-                            Naziv =
-                                reader["Naziv"]
-                                    .ToString() ?? "",
-
-                            Kategorija =
-                                reader["Kategorija"]
-                                    .ToString() ?? "",
-
-                            Cena =
-                                Convert.ToDecimal(
-                                    reader["Cena"])
-                        };
-
-                    lista.Add(proizvod);
-                }
+                return kontekst.Proizvodi.ToList();
             }
-
-            return lista;
         }
 
         public Proizvod? VratiPoId(int id)
         {
-            Proizvod? proizvod = null;
-
-            using (SqlConnection konekcija =
-                new SqlConnection(
-                    Konekcija.VratiKonekcioniString()))
+            using (KontekstBaze kontekst = new KontekstBaze())
             {
-                string upit = @"
-                    SELECT
-                        ProizvodID,
-                        Naziv,
-                        Kategorija,
-                        Cena
-                    FROM Proizvod
-                    WHERE ProizvodID = @ProizvodID";
+                return kontekst.Proizvodi
+                    .FirstOrDefault(p => p.ProizvodID == id);
+            }
+        }
 
-                SqlCommand komanda =
-                    new SqlCommand(upit, konekcija);
+        public void Dodaj(Proizvod proizvod)
+        {
+            using (KontekstBaze kontekst = new KontekstBaze())
+            {
+                kontekst.Proizvodi.Add(proizvod);
+                kontekst.SaveChanges();
+            }
+        }
 
-                komanda.Parameters.AddWithValue(
-                    "@ProizvodID",
-                    id);
+        public void Izmeni(Proizvod proizvod)
+        {
+            using (KontekstBaze kontekst = new KontekstBaze())
+            {
+                Proizvod? postojeciProizvod =
+                    kontekst.Proizvodi
+                        .FirstOrDefault(
+                            p => p.ProizvodID == proizvod.ProizvodID);
 
-                konekcija.Open();
-
-                SqlDataReader reader =
-                    komanda.ExecuteReader();
-
-                if (reader.Read())
+                if (postojeciProizvod != null)
                 {
-                    proizvod =
-                        new Proizvod
-                        {
-                            ProizvodID =
-                                Convert.ToInt32(
-                                    reader["ProizvodID"]),
+                    postojeciProizvod.Naziv = proizvod.Naziv;
+                    postojeciProizvod.Kategorija = proizvod.Kategorija;
+                    postojeciProizvod.Cena = proizvod.Cena;
 
-                            Naziv =
-                                reader["Naziv"]
-                                    .ToString() ?? "",
-
-                            Kategorija =
-                                reader["Kategorija"]
-                                    .ToString() ?? "",
-
-                            Cena =
-                                Convert.ToDecimal(
-                                    reader["Cena"])
-                        };
+                    kontekst.SaveChanges();
                 }
             }
+        }
 
-            return proizvod;
+        public void Obrisi(int id)
+        {
+            using (KontekstBaze kontekst = new KontekstBaze())
+            {
+                Proizvod? proizvod =
+                    kontekst.Proizvodi
+                        .FirstOrDefault(p => p.ProizvodID == id);
+
+                if (proizvod != null)
+                {
+                    kontekst.Proizvodi.Remove(proizvod);
+                    kontekst.SaveChanges();
+                }
+            }
         }
     }
 }

@@ -20,7 +20,7 @@
             <h2>Detalji narudžbine</h2>
 
             <p class="text-muted mb-0">
-                Pregled podataka i stavki narudžbine
+                Pregled podataka i dodataka narudžbine
             </p>
         </div>
 
@@ -156,11 +156,11 @@
                 <div>
 
                     <h3 class="mb-1">
-                        Stavke narudžbine
+                        Dodaci uz tortu
                     </h3>
 
                     <p class="text-muted mb-0">
-                        Proizvodi koji pripadaju ovoj narudžbini
+                        Izabrani dodaci za ovu narudžbinu
                     </p>
 
                 </div>
@@ -170,7 +170,7 @@
                    asp-route-narudzbinaID="@Model.Narudzbina.NarudzbinaID"
                    class="btn slatki-primary">
 
-                    + Dodaj stavku
+                    + Dodaj dodatak
 
                 </a>
 
@@ -182,11 +182,11 @@
             {
                 <div class="alert alert-light border mt-3">
 
-                    Ova narudžbina trenutno nema stavke.
+                    Ova narudžbina trenutno nema dodatke.
 
                     Kliknite na
-                    <strong>Dodaj stavku</strong>
-                    da biste dodali proizvod.
+                    <strong>Dodaj dodatak</strong>
+                    da biste dodali željeni dodatak.
 
                 </div>
             }
@@ -202,7 +202,7 @@
                             <tr>
 
                                 <th>
-                                    Proizvod
+                                    Dodatak
                                 </th>
 
                                 <th class="text-center">
@@ -283,7 +283,7 @@
                                 <td colspan="3"
                                     class="text-end fw-bold">
 
-                                    Ukupna vrednost stavki:
+                                    Ukupna vrednost dodataka:
 
                                 </td>
 

@@ -3,38 +3,40 @@ using Poslasticarnica.Modeli;
 
 namespace Poslasticarnica.Repozitorijum
 {
-    public class TipTorteRepozitorijum
+    public class TipTorteRepozitorijum : Tabela
     {
         public List<TipTorte> VratiSve()
         {
             List<TipTorte> lista = new List<TipTorte>();
 
-            using (SqlConnection konekcija =
-                new SqlConnection(Konekcija.VratiKonekcioniString()))
+            using (SqlConnection konekcija = KreirajKonekciju())
             {
                 string upit =
-                    "SELECT TipTorteID, Naziv FROM TipTorte";
+                    "SELECT TipTorteID, Naziv, Cena FROM TipTorte";
 
                 SqlCommand komanda =
-                    new SqlCommand(upit, konekcija);
+                    KreirajKomandu(upit, konekcija);
 
                 konekcija.Open();
 
-                SqlDataReader reader =
-                    komanda.ExecuteReader();
-
-                while (reader.Read())
+                using (SqlDataReader citac = komanda.ExecuteReader())
                 {
-                    TipTorte tip = new TipTorte
+                    while (citac.Read())
                     {
-                        TipTorteID =
-                            Convert.ToInt32(reader["TipTorteID"]),
+                        TipTorte tip = new TipTorte
+                        {
+                            TipTorteID =
+                                Convert.ToInt32(citac["TipTorteID"]),
 
-                        Naziv =
-                            reader["Naziv"].ToString() ?? ""
-                    };
+                            Naziv =
+                                citac["Naziv"].ToString() ?? "",
 
-                    lista.Add(tip);
+                            Cena =
+                                Convert.ToDecimal(citac["Cena"])
+                        };
+
+                        lista.Add(tip);
+                    }
                 }
             }
 
@@ -45,35 +47,37 @@ namespace Poslasticarnica.Repozitorijum
         {
             TipTorte? tip = null;
 
-            using (SqlConnection konekcija =
-                new SqlConnection(Konekcija.VratiKonekcioniString()))
+            using (SqlConnection konekcija = KreirajKonekciju())
             {
                 string upit =
-                    @"SELECT TipTorteID, Naziv
+                    @"SELECT TipTorteID, Naziv, Cena
                       FROM TipTorte
                       WHERE TipTorteID = @TipTorteID";
 
                 SqlCommand komanda =
-                    new SqlCommand(upit, konekcija);
+                    KreirajKomandu(upit, konekcija);
 
                 komanda.Parameters.AddWithValue(
                     "@TipTorteID", id);
 
                 konekcija.Open();
 
-                SqlDataReader reader =
-                    komanda.ExecuteReader();
-
-                if (reader.Read())
+                using (SqlDataReader citac = komanda.ExecuteReader())
                 {
-                    tip = new TipTorte
+                    if (citac.Read())
                     {
-                        TipTorteID =
-                            Convert.ToInt32(reader["TipTorteID"]),
+                        tip = new TipTorte
+                        {
+                            TipTorteID =
+                                Convert.ToInt32(citac["TipTorteID"]),
 
-                        Naziv =
-                            reader["Naziv"].ToString() ?? ""
-                    };
+                            Naziv =
+                                citac["Naziv"].ToString() ?? "",
+
+                            Cena =
+                                Convert.ToDecimal(citac["Cena"])
+                        };
+                    }
                 }
             }
 
@@ -82,18 +86,20 @@ namespace Poslasticarnica.Repozitorijum
 
         public void Dodaj(TipTorte tip)
         {
-            using (SqlConnection konekcija =
-                new SqlConnection(Konekcija.VratiKonekcioniString()))
+            using (SqlConnection konekcija = KreirajKonekciju())
             {
                 string upit =
-                    @"INSERT INTO TipTorte (Naziv)
-                      VALUES (@Naziv)";
+                    @"INSERT INTO TipTorte (Naziv, Cena)
+                      VALUES (@Naziv, @Cena)";
 
                 SqlCommand komanda =
-                    new SqlCommand(upit, konekcija);
+                    KreirajKomandu(upit, konekcija);
 
                 komanda.Parameters.AddWithValue(
                     "@Naziv", tip.Naziv);
+
+                komanda.Parameters.AddWithValue(
+                    "@Cena", tip.Cena);
 
                 konekcija.Open();
 
@@ -103,19 +109,22 @@ namespace Poslasticarnica.Repozitorijum
 
         public void Izmeni(TipTorte tip)
         {
-            using (SqlConnection konekcija =
-                new SqlConnection(Konekcija.VratiKonekcioniString()))
+            using (SqlConnection konekcija = KreirajKonekciju())
             {
                 string upit =
                     @"UPDATE TipTorte
-                      SET Naziv = @Naziv
+                      SET Naziv = @Naziv,
+                          Cena = @Cena
                       WHERE TipTorteID = @TipTorteID";
 
                 SqlCommand komanda =
-                    new SqlCommand(upit, konekcija);
+                    KreirajKomandu(upit, konekcija);
 
                 komanda.Parameters.AddWithValue(
                     "@Naziv", tip.Naziv);
+
+                komanda.Parameters.AddWithValue(
+                    "@Cena", tip.Cena);
 
                 komanda.Parameters.AddWithValue(
                     "@TipTorteID", tip.TipTorteID);
@@ -128,15 +137,14 @@ namespace Poslasticarnica.Repozitorijum
 
         public void Obrisi(int id)
         {
-            using (SqlConnection konekcija =
-                new SqlConnection(Konekcija.VratiKonekcioniString()))
+            using (SqlConnection konekcija = KreirajKonekciju())
             {
                 string upit =
                     @"DELETE FROM TipTorte
                       WHERE TipTorteID = @TipTorteID";
 
                 SqlCommand komanda =
-                    new SqlCommand(upit, konekcija);
+                    KreirajKomandu(upit, konekcija);
 
                 komanda.Parameters.AddWithValue(
                     "@TipTorteID", id);

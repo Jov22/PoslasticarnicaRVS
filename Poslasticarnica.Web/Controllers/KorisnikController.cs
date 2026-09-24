@@ -85,7 +85,7 @@ namespace Poslasticarnica.Web.Controllers
 
             return RedirectToAction(
                 "Index",
-                "Home");
+                "Pocetna");
         }
 
         [HttpGet]

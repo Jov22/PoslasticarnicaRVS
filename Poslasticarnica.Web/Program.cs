@@ -6,18 +6,18 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddHttpClient();
 
-builder.Services.AddSession(options =>
+builder.Services.AddSession(opcije =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
+    opcije.IdleTimeout = TimeSpan.FromMinutes(30);
+    opcije.Cookie.HttpOnly = true;
+    opcije.Cookie.IsEssential = true;
 });
 
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Pocetna/Greska");
     app.UseHsts();
 }
 
@@ -32,7 +32,7 @@ app.UseSession();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "default",
+    name: "podrazumevana",
     pattern: "{controller=Korisnik}/{action=Prijava}/{id?}");
 
 app.Run();

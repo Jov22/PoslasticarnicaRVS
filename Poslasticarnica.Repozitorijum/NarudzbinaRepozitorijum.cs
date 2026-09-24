@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Poslasticarnica.Modeli;
+using System.Data;
 
 namespace Poslasticarnica.Repozitorijum
 {
@@ -12,20 +13,10 @@ namespace Poslasticarnica.Repozitorijum
             using (SqlConnection konekcija =
                    new SqlConnection(Konekcija.VratiKonekcioniString()))
             {
-                string upit = @"SELECT 
-                                NarudzbinaID,
-                                ImePrezimeKupca,
-                                BrojTelefona,
-                                Email,
-                                DatumKreiranja,
-                                DatumPreuzimanja,
-                                Status,
-                                UkupnaCena,
-                                Napomena,
-                                TipTorteID
-                                FROM Narudzbina";
+                SqlCommand komanda =
+                    new SqlCommand("VratiSveNarudzbine", konekcija);
 
-                SqlCommand komanda = new SqlCommand(upit, konekcija);
+                komanda.CommandType = CommandType.StoredProcedure;
 
                 konekcija.Open();
 
@@ -35,16 +26,35 @@ namespace Poslasticarnica.Repozitorijum
                 {
                     Narudzbina narudzbina = new Narudzbina
                     {
-                        NarudzbinaID = Convert.ToInt32(reader["NarudzbinaID"]),
-                        ImePrezimeKupca = reader["ImePrezimeKupca"].ToString(),
-                        BrojTelefona = reader["BrojTelefona"].ToString(),
-                        Email = reader["Email"].ToString(),
-                        DatumKreiranja = Convert.ToDateTime(reader["DatumKreiranja"]),
-                        DatumPreuzimanja = Convert.ToDateTime(reader["DatumPreuzimanja"]),
-                        Status = reader["Status"].ToString(),
-                        UkupnaCena = Convert.ToDecimal(reader["UkupnaCena"]),
-                        Napomena = reader["Napomena"].ToString(),
-                        TipTorteID = Convert.ToInt32(reader["TipTorteID"])
+                        NarudzbinaID =
+                            Convert.ToInt32(reader["NarudzbinaID"]),
+
+                        ImePrezimeKupca =
+                            reader["ImePrezimeKupca"].ToString(),
+
+                        BrojTelefona =
+                            reader["BrojTelefona"].ToString(),
+
+                        Email =
+                            reader["Email"].ToString(),
+
+                        DatumKreiranja =
+                            Convert.ToDateTime(reader["DatumKreiranja"]),
+
+                        DatumPreuzimanja =
+                            Convert.ToDateTime(reader["DatumPreuzimanja"]),
+
+                        Status =
+                            reader["Status"].ToString(),
+
+                        UkupnaCena =
+                            Convert.ToDecimal(reader["UkupnaCena"]),
+
+                        Napomena =
+                            reader["Napomena"].ToString(),
+
+                        TipTorteID =
+                            Convert.ToInt32(reader["TipTorteID"])
                     };
 
                     lista.Add(narudzbina);
@@ -61,21 +71,10 @@ namespace Poslasticarnica.Repozitorijum
             using (SqlConnection konekcija =
                    new SqlConnection(Konekcija.VratiKonekcioniString()))
             {
-                string upit = @"SELECT 
-                                NarudzbinaID,
-                                ImePrezimeKupca,
-                                BrojTelefona,
-                                Email,
-                                DatumKreiranja,
-                                DatumPreuzimanja,
-                                Status,
-                                UkupnaCena,
-                                Napomena,
-                                TipTorteID
-                                FROM Narudzbina
-                                WHERE NarudzbinaID = @NarudzbinaID";
+                SqlCommand komanda =
+                    new SqlCommand("VratiNarudzbinuPoID", konekcija);
 
-                SqlCommand komanda = new SqlCommand(upit, konekcija);
+                komanda.CommandType = CommandType.StoredProcedure;
 
                 komanda.Parameters.AddWithValue(
                     "@NarudzbinaID", id);
@@ -88,16 +87,35 @@ namespace Poslasticarnica.Repozitorijum
                 {
                     narudzbina = new Narudzbina
                     {
-                        NarudzbinaID = Convert.ToInt32(reader["NarudzbinaID"]),
-                        ImePrezimeKupca = reader["ImePrezimeKupca"].ToString(),
-                        BrojTelefona = reader["BrojTelefona"].ToString(),
-                        Email = reader["Email"].ToString(),
-                        DatumKreiranja = Convert.ToDateTime(reader["DatumKreiranja"]),
-                        DatumPreuzimanja = Convert.ToDateTime(reader["DatumPreuzimanja"]),
-                        Status = reader["Status"].ToString(),
-                        UkupnaCena = Convert.ToDecimal(reader["UkupnaCena"]),
-                        Napomena = reader["Napomena"].ToString(),
-                        TipTorteID = Convert.ToInt32(reader["TipTorteID"])
+                        NarudzbinaID =
+                            Convert.ToInt32(reader["NarudzbinaID"]),
+
+                        ImePrezimeKupca =
+                            reader["ImePrezimeKupca"].ToString(),
+
+                        BrojTelefona =
+                            reader["BrojTelefona"].ToString(),
+
+                        Email =
+                            reader["Email"].ToString(),
+
+                        DatumKreiranja =
+                            Convert.ToDateTime(reader["DatumKreiranja"]),
+
+                        DatumPreuzimanja =
+                            Convert.ToDateTime(reader["DatumPreuzimanja"]),
+
+                        Status =
+                            reader["Status"].ToString(),
+
+                        UkupnaCena =
+                            Convert.ToDecimal(reader["UkupnaCena"]),
+
+                        Napomena =
+                            reader["Napomena"].ToString(),
+
+                        TipTorteID =
+                            Convert.ToInt32(reader["TipTorteID"])
                     };
                 }
             }
@@ -110,59 +128,46 @@ namespace Poslasticarnica.Repozitorijum
             using (SqlConnection konekcija =
                    new SqlConnection(Konekcija.VratiKonekcioniString()))
             {
-                string upit = @"INSERT INTO Narudzbina
-                                (
-                                    ImePrezimeKupca,
-                                    BrojTelefona,
-                                    Email,
-                                    DatumKreiranja,
-                                    DatumPreuzimanja,
-                                    Status,
-                                    UkupnaCena,
-                                    Napomena,
-                                    TipTorteID
-                                )
-                                VALUES
-                                (
-                                    @ImePrezimeKupca,
-                                    @BrojTelefona,
-                                    @Email,
-                                    @DatumKreiranja,
-                                    @DatumPreuzimanja,
-                                    @Status,
-                                    @UkupnaCena,
-                                    @Napomena,
-                                    @TipTorteID
-                                )";
+                SqlCommand komanda =
+                    new SqlCommand("DodajNarudzbinu", konekcija);
 
-                SqlCommand komanda = new SqlCommand(upit, konekcija);
+                komanda.CommandType = CommandType.StoredProcedure;
 
                 komanda.Parameters.AddWithValue(
-                    "@ImePrezimeKupca", narudzbina.ImePrezimeKupca);
+                    "@ImePrezimeKupca",
+                    narudzbina.ImePrezimeKupca);
 
                 komanda.Parameters.AddWithValue(
-                    "@BrojTelefona", narudzbina.BrojTelefona);
+                    "@BrojTelefona",
+                    narudzbina.BrojTelefona);
 
                 komanda.Parameters.AddWithValue(
-                    "@Email", narudzbina.Email ?? "");
+                    "@Email",
+                    narudzbina.Email ?? "");
 
                 komanda.Parameters.AddWithValue(
-                    "@DatumKreiranja", narudzbina.DatumKreiranja);
+                    "@DatumKreiranja",
+                    narudzbina.DatumKreiranja);
 
                 komanda.Parameters.AddWithValue(
-                    "@DatumPreuzimanja", narudzbina.DatumPreuzimanja);
+                    "@DatumPreuzimanja",
+                    narudzbina.DatumPreuzimanja);
 
                 komanda.Parameters.AddWithValue(
-                    "@Status", narudzbina.Status);
+                    "@Status",
+                    narudzbina.Status);
 
                 komanda.Parameters.AddWithValue(
-                    "@UkupnaCena", narudzbina.UkupnaCena);
+                    "@UkupnaCena",
+                    narudzbina.UkupnaCena);
 
                 komanda.Parameters.AddWithValue(
-                    "@Napomena", narudzbina.Napomena ?? "");
+                    "@Napomena",
+                    narudzbina.Napomena ?? "");
 
                 komanda.Parameters.AddWithValue(
-                    "@TipTorteID", narudzbina.TipTorteID);
+                    "@TipTorteID",
+                    narudzbina.TipTorteID);
 
                 konekcija.Open();
 
@@ -175,51 +180,50 @@ namespace Poslasticarnica.Repozitorijum
             using (SqlConnection konekcija =
                    new SqlConnection(Konekcija.VratiKonekcioniString()))
             {
-                string upit = @"UPDATE Narudzbina
-                                SET
-                                    ImePrezimeKupca = @ImePrezimeKupca,
-                                    BrojTelefona = @BrojTelefona,
-                                    Email = @Email,
-                                    DatumKreiranja = @DatumKreiranja,
-                                    DatumPreuzimanja = @DatumPreuzimanja,
-                                    Status = @Status,
-                                    UkupnaCena = @UkupnaCena,
-                                    Napomena = @Napomena,
-                                    TipTorteID = @TipTorteID
-                                WHERE NarudzbinaID = @NarudzbinaID";
+                SqlCommand komanda =
+                    new SqlCommand("IzmeniNarudzbinu", konekcija);
 
-                SqlCommand komanda = new SqlCommand(upit, konekcija);
+                komanda.CommandType = CommandType.StoredProcedure;
 
                 komanda.Parameters.AddWithValue(
-                    "@NarudzbinaID", narudzbina.NarudzbinaID);
+                    "@NarudzbinaID",
+                    narudzbina.NarudzbinaID);
 
                 komanda.Parameters.AddWithValue(
-                    "@ImePrezimeKupca", narudzbina.ImePrezimeKupca);
+                    "@ImePrezimeKupca",
+                    narudzbina.ImePrezimeKupca);
 
                 komanda.Parameters.AddWithValue(
-                    "@BrojTelefona", narudzbina.BrojTelefona);
+                    "@BrojTelefona",
+                    narudzbina.BrojTelefona);
 
                 komanda.Parameters.AddWithValue(
-                    "@Email", narudzbina.Email ?? "");
+                    "@Email",
+                    narudzbina.Email ?? "");
 
                 komanda.Parameters.AddWithValue(
-                    "@DatumKreiranja", narudzbina.DatumKreiranja);
+                    "@DatumKreiranja",
+                    narudzbina.DatumKreiranja);
 
                 komanda.Parameters.AddWithValue(
-                    "@DatumPreuzimanja", narudzbina.DatumPreuzimanja);
+                    "@DatumPreuzimanja",
+                    narudzbina.DatumPreuzimanja);
 
                 komanda.Parameters.AddWithValue(
-                    "@Status", narudzbina.Status);
+                    "@Status",
+                    narudzbina.Status);
 
                 komanda.Parameters.AddWithValue(
-                    "@UkupnaCena", narudzbina.UkupnaCena);
+                    "@UkupnaCena",
+                    narudzbina.UkupnaCena);
 
                 komanda.Parameters.AddWithValue(
-    "@Napomena",
-    narudzbina.Napomena ?? "");
+                    "@Napomena",
+                    narudzbina.Napomena ?? "");
 
                 komanda.Parameters.AddWithValue(
-                    "@TipTorteID", narudzbina.TipTorteID);
+                    "@TipTorteID",
+                    narudzbina.TipTorteID);
 
                 konekcija.Open();
 
@@ -232,10 +236,10 @@ namespace Poslasticarnica.Repozitorijum
             using (SqlConnection konekcija =
                    new SqlConnection(Konekcija.VratiKonekcioniString()))
             {
-                string upit =
-                    "DELETE FROM Narudzbina WHERE NarudzbinaID = @NarudzbinaID";
+                SqlCommand komanda =
+                    new SqlCommand("ObrisiNarudzbinu", konekcija);
 
-                SqlCommand komanda = new SqlCommand(upit, konekcija);
+                komanda.CommandType = CommandType.StoredProcedure;
 
                 komanda.Parameters.AddWithValue(
                     "@NarudzbinaID", id);
